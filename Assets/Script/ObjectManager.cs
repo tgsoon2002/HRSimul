@@ -13,8 +13,8 @@ public class  ObjectManager : MonoBehaviour
 	public Vector3 roomDimen;
 	public GameObject assetPrefab;
 	public GameObject objectNamePre;
-	public Texture wallText;
-	public Texture floorText;
+	public Material wallText;
+	public Material floorText;
 	public int currentID;
 
 
@@ -71,14 +71,15 @@ public class  ObjectManager : MonoBehaviour
 		objectNameList.Add (tempAssetName);
 	}
 
-	public void CreateAssets (string name)
+	public void CreateAssets (string name, AssetType type)
 	{
 		Random rand = new Random ();
 		int id = -1;
 		do {
 			id = Random.Range (0, 1000);	
 		} while (objectNameList.Find (o => o.name == id.ToString ()));
-
+		Debug.Log (type.ToString () + "/" + name);
+		assetPrefab = (GameObject)Resources.Load (type.ToString () + "/" + name);
 		GameObject tempAsset = Instantiate (assetPrefab, Vector3.zero, Quaternion.Euler (Vector3.zero)) as GameObject;
 		tempAsset.GetComponent<AssetBase> ().randomID = id;
 
@@ -92,6 +93,13 @@ public class  ObjectManager : MonoBehaviour
 
 	}
 
+	public void _WallColorChange (Color newColor)
+	{
+		if (wallText != null) {
+			wallText.color = newColor;	
+		}
 
+
+	}
 
 }

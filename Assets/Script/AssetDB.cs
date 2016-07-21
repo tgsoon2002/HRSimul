@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -53,6 +54,7 @@ public class AssetDB : MonoBehaviour
 		ConstructDatabase ();
 		totalItem = assetList.Count;
 		GenerateAssetView ();
+		UpdateFav (); 	
 		_CloseViewer ();
 	}
 
@@ -63,6 +65,7 @@ public class AssetDB : MonoBehaviour
 	public void _OpenColorPicker ()
 	{
 		colorPicker.gameObject.SetActive (true);
+		_CloseViewer ();
 	}
 
 	public void _CloseColorPicker ()
@@ -113,7 +116,9 @@ public class AssetDB : MonoBehaviour
 	{
 		foreach (var item in assetList) {
 			GameObject temp = Instantiate (assetViewPrefab) as GameObject;
+			temp.GetComponent<Image> ().sprite = (Sprite)Resources.Load ("Graphic/" + item.aName, typeof(Sprite));
 			temp.GetComponent<AssetView> ().name = item.aName;
+			temp.GetComponent<AssetView> ().assetType = item.aType;
 			temp.GetComponent<AssetView> ().aTexture = (Texture)Resources.Load (item.aName, typeof(Texture));
 			temp.GetComponent<AssetView> ().UsedCount = item.aCount;
 			switch (item.aType) {
@@ -130,6 +135,95 @@ public class AssetDB : MonoBehaviour
 				break;
 			}
 		}
+	}
+
+	void UpdateFav ()
+	{
+		int prevMax = 500;
+		int max = 0;
+		string topFav = "";
+		bool change = false;
+		#region Generate TopFav Furniture
+		for (int i = 0; i < 5; i++) {
+			foreach (var item in assetList) {
+				if (item.aCount > max && item.aType == AssetType.Furniture && item.aCount < prevMax) {
+					change = true;
+					max = item.aCount;
+					topFav = item.aName;
+				}
+			}
+
+			if (change == true) {
+				prevMax = max;
+				max = 0;
+				GameObject temp = Instantiate (assetViewPrefab) as GameObject;
+				AssetItem itemTemp = assetList.Find (o => o.aName == topFav);
+				temp.GetComponent<Image> ().sprite = (Sprite)Resources.Load ("Graphic/" + itemTemp.aName, typeof(Sprite));
+				temp.GetComponent<AssetView> ().name = itemTemp.aName;
+				temp.GetComponent<AssetView> ().assetType = itemTemp.aType;
+				temp.GetComponent<AssetView> ().aTexture = (Texture)Resources.Load (itemTemp.aName, typeof(Texture));
+				temp.GetComponent<AssetView> ().UsedCount = itemTemp.aCount;
+
+				temp.transform.SetParent (furnitureFavCon.transform);
+			}
+			change = false;
+		}
+		#endregion
+		#region Generate TopFav RoomUtility
+		max = -1;
+		prevMax = 500;
+		for (int i = 0; i < 5; i++) {
+			foreach (var item in assetList) {
+				if (item.aCount > max && item.aType == AssetType.RoomUtility && item.aCount < prevMax) {
+					change = true;
+					max = item.aCount;
+					topFav = item.aName;
+				}
+			}
+			if (change == true) {
+				prevMax = max;
+				max = 0;
+				GameObject temp = Instantiate (assetViewPrefab) as GameObject;
+				AssetItem itemTemp = assetList.Find (o => o.aName == topFav);
+				temp.GetComponent<Image> ().sprite = (Sprite)Resources.Load ("Graphic/" + itemTemp.aName, typeof(Sprite));
+				temp.GetComponent<AssetView> ().name = itemTemp.aName;
+				temp.GetComponent<AssetView> ().assetType = itemTemp.aType;
+				temp.GetComponent<AssetView> ().aTexture = (Texture)Resources.Load (itemTemp.aName, typeof(Texture));
+				temp.GetComponent<AssetView> ().UsedCount = itemTemp.aCount;
+
+				temp.transform.SetParent (roomUtiFavCon.transform);
+			}
+			change = false;
+		}
+		#endregion
+		#region Generate TopFav Texture
+		prevMax = 500;
+		max = -1;
+		for (int i = 0; i < 5; i++) {
+			foreach (var item in assetList) {
+				if (item.aCount > max && item.aType == AssetType.Texture && item.aCount < prevMax) {
+					change = true;
+					max = item.aCount;
+					topFav = item.aName;
+				}
+			}
+			if (change == true) {
+				prevMax = max;
+				max = 0;
+				GameObject temp = Instantiate (assetViewPrefab) as GameObject;
+				AssetItem itemTemp = assetList.Find (o => o.aName == topFav);
+				temp.GetComponent<Image> ().sprite = (Sprite)Resources.Load ("Graphic/" + itemTemp.aName, typeof(Sprite));
+				temp.GetComponent<AssetView> ().name = itemTemp.aName;
+				temp.GetComponent<AssetView> ().assetType = itemTemp.aType;
+				temp.GetComponent<AssetView> ().aTexture = (Texture)Resources.Load (itemTemp.aName, typeof(Texture));
+				temp.GetComponent<AssetView> ().UsedCount = itemTemp.aCount;
+
+				temp.transform.SetParent (textureFavCon.transform);
+			}
+			change = false;
+		}
+		#endregion
+
 	}
 
 	#endregion

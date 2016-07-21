@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 
-public class AssetView : MonoBehaviour, IPointerClickHandler
+public class AssetView : MonoBehaviour
 {
 	public AssetType assetType;
 	public Texture aTexture;
@@ -22,18 +21,14 @@ public class AssetView : MonoBehaviour, IPointerClickHandler
 	public void _CreateObject ()
 	{
 		Debug.Log (name);
-		ObjectManager.Instance.CreateAssets (name);
+		if (assetType != AssetType.Texture) {
+			ObjectManager.Instance.CreateAssets (name, assetType);
+		} else {
+
+		}
 
 		AssetDB.Instance._CloseViewer ();
 	}
 
-	public void OnPointerClick (PointerEventData eventData)
-	{
-		if (Input.GetMouseButtonUp (0)) {
 
-		}
-
-
-
-	}
 }
