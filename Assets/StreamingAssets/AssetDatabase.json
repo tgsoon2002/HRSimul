@@ -1,0 +1,21 @@
+[{
+	"aName": "chair",
+	"aType": "Furniture",
+	"aCount":0
+	},
+{
+	"aName": "table",
+	"aType": "Furniture",
+	"aCount":0
+	},
+	{
+	"aName": "door",
+	"aType": "RoomUtility",
+	"aCount":0
+	},
+	{
+	"aName": "wood",
+	"aType": "Texture",
+	"aCount":0
+	}
+	]

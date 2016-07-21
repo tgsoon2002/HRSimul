@@ -9,10 +9,12 @@ public class  ObjectManager : MonoBehaviour
 	//[SerializeField]
 	private List<AssetBase> assetList;
 	private List<GameObject> objectNameList;
+	public Vector3 roomDimen;
 	public GameObject assetPrefab;
 	public GameObject objectNamePre;
 	public Texture wallText;
 	public Texture floorText;
+
 
 	public static ObjectManager Instance {
 		get{ return  _instance; }
