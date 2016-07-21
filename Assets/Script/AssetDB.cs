@@ -18,7 +18,7 @@ public class AssetDB : MonoBehaviour
 
 	public List <AssetItem> assetList;
 	public int totalItem;
-	public AssetView assetViewPrefab;
+	public GameObject assetViewPrefab;
 	public GameObject furnitureCon;
 	public GameObject furnitureFavCon;
 	public GameObject roomUtiCon;
@@ -52,7 +52,8 @@ public class AssetDB : MonoBehaviour
 		assetList = new List<AssetItem> ();
 		ConstructDatabase ();
 		totalItem = assetList.Count;
-		gameObject.SetActive (false);
+		GenerateAssetView ();
+		_CloseViewer ();
 	}
 
 	#endregion
@@ -103,10 +104,31 @@ public class AssetDB : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Generates the asset view.
+	/// Will go through every item in the list, 
+	/// Instantiate the item and set parent to the rigth container.
+	/// </summary>
 	void GenerateAssetView ()
 	{
 		foreach (var item in assetList) {
-	
+			GameObject temp = Instantiate (assetViewPrefab) as GameObject;
+			temp.GetComponent<AssetView> ().name = item.aName;
+			temp.GetComponent<AssetView> ().aTexture = (Texture)Resources.Load (item.aName, typeof(Texture));
+			temp.GetComponent<AssetView> ().UsedCount = item.aCount;
+			switch (item.aType) {
+			case AssetType.Furniture:
+				temp.transform.SetParent (furnitureCon.transform);
+				break;
+			case AssetType.RoomUtility:
+				temp.transform.SetParent (roomUtiCon.transform);
+				break;
+			case AssetType.Texture:
+				temp.transform.SetParent (textureCon.transform);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 

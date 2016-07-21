@@ -1,12 +1,12 @@
 [{
 	"aName": "chair",
 	"aType": "Furniture",
-	"aCount":0
+	"aCount":2
 	},
 {
 	"aName": "table",
 	"aType": "Furniture",
-	"aCount":0
+	"aCount":3
 	},
 	{
 	"aName": "door",
