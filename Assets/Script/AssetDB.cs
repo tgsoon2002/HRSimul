@@ -77,14 +77,17 @@ public class AssetDB : MonoBehaviour
 
 	public void _OpenViewer ()
 	{
+		
 		transform.GetChild (0).gameObject.SetActive (true);
 		transform.GetChild (1).gameObject.SetActive (true);
+		transform.GetChild (2).gameObject.SetActive (true);
 	}
 
 	public void _CloseViewer ()
 	{
 		transform.GetChild (0).gameObject.SetActive (false);
 		transform.GetChild (1).gameObject.SetActive (false);
+		transform.GetChild (2).gameObject.SetActive (false);
 	}
 
 	#endregion
