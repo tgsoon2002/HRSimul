@@ -19,12 +19,9 @@ public class AssetDB : MonoBehaviour
 
 	public List <AssetItem> assetList;
 	public int totalItem;
-<<<<<<< HEAD
-=======
 
 	public GameObject TotalPanel;
 
->>>>>>> Kien
 	public GameObject assetViewPrefab;
 	public GameObject furnitureCon;
 	public GameObject furnitureFavCon;
@@ -32,10 +29,6 @@ public class AssetDB : MonoBehaviour
 	public GameObject roomUtiFavCon;
 	public GameObject textureCon;
 	public GameObject textureFavCon;
-<<<<<<< HEAD
-
-=======
->>>>>>> Kien
 	public GameObject colorPicker;
 
 	#endregion
@@ -71,27 +64,6 @@ public class AssetDB : MonoBehaviour
 
 	#region Public Methods
 
-<<<<<<< HEAD
-	public void _OpenColorPicker ()
-	{
-		colorPicker.gameObject.SetActive (true);
-		_CloseViewer ();
-	}
-
-	public void _CloseColorPicker ()
-	{
-		colorPicker.gameObject.SetActive (false);
-	}
-
-
-
-	public void _OpenViewer ()
-	{
-		
-		transform.GetChild (0).gameObject.SetActive (true);
-		transform.GetChild (1).gameObject.SetActive (true);
-		transform.GetChild (2).gameObject.SetActive (true);
-=======
 	public void _ViewWallAsset ()
 	{
 		TotalPanel.transform.GetChild (2).gameObject.SetActive (true);
@@ -132,7 +104,6 @@ public class AssetDB : MonoBehaviour
 		transform.GetChild (1).gameObject.SetActive (true);
 		transform.GetChild (2).gameObject.SetActive (true);
 		_ViewWallAsset ();
->>>>>>> Kien
 	}
 
 	public void _CloseViewer ()
@@ -162,11 +133,6 @@ public class AssetDB : MonoBehaviour
 		}
 	}
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> Kien
 	/// <summary>
 	/// Generates the asset view.
 	/// Will go through every item in the list, 
