@@ -9,7 +9,7 @@
 	"RotY": 2.0,
 	"RotZ": 2.0,
 	"ID" : 0
-	},
+	},{
 	"RoomName": "room1",
 	"aName": "chair",
 	"aType": "Furniture",
