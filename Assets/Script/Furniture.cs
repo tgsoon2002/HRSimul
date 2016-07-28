@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Furniture : MonoBehaviour {
+public class Furniture : AssetBase
+{
 
-	// Use this for initialization
-	void Start () {
-	
+
+
+	public void Rotate ()
+	{
+		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }
