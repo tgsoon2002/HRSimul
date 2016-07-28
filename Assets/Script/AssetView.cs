@@ -20,14 +20,14 @@ public class AssetView : MonoBehaviour
 
 	public void _CreateObject ()
 	{
-		Debug.Log (name);
-		if (assetType != AssetType.Texture) {
-			ObjectManager.Instance.CreateAssets (name, assetType);
-		} else {
+		if (ObjectManager.Instance != null) {
+			if (assetType != AssetType.Texture) {
+				ObjectManager.Instance.CreateAssets (name, assetType);
+			} else {
 
+			}
+			AssetDB.Instance._CloseViewer ();
 		}
-
-		AssetDB.Instance._CloseViewer ();
 	}
 
 

@@ -17,13 +17,23 @@ public class  ObjectManager : MonoBehaviour
 	public Material floorText;
 	public int currentID;
 
-	public GameObject selsetedItem;
+	public GameObject FourArrow;
+	public GameObject selectedItem;
+
+	private RaycastHit hit;
+	private Ray ray;
 
 	public static ObjectManager Instance {
 		get{ return  _instance; }
 	}
 
-
+	public GameObject SelectedItem {
+		get{ return  selectedItem; }
+		set {
+			selectedItem = value;
+			FourArrow.GetComponent<FourArrow> ().Following = value;
+		}
+	}
 
 
 	#region Unity Built-In
@@ -44,7 +54,17 @@ public class  ObjectManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (Input.GetMouseButtonDown (0)) {
+			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			if (Physics.Raycast (ray, out hit, 50.0f)) {
+				if (hit.collider.gameObject.tag == "Object") {
+					SelectedItem = hit.collider.gameObject;
+				} else if (hit.collider.gameObject.tag == "Wall") {
+					AssetDB.Instance._OpenWallAssetViewer ();
+				}
+			}
 
+		}
 	}
 
 	#endregion
@@ -94,8 +114,8 @@ public class  ObjectManager : MonoBehaviour
 
 	public void DeslectedCurrentObject ()
 	{
-		if (selsetedItem != null) {
-			selsetedItem.GetComponent<ObjectItem> ().IsSelected = false;	
+		if (selectedItem != null) {
+			selectedItem.GetComponent<ObjectItem> ().IsSelected = false;	
 		}
 
 	}

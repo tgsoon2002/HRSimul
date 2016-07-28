@@ -18,7 +18,7 @@ public class ObjectItem : MonoBehaviour, IPointerClickHandler
 			if (value) {
 				ObjectManager.Instance.DeslectedCurrentObject ();
 				GetComponent<Text> ().fontStyle = FontStyle.Bold;
-				ObjectManager.Instance.selsetedItem = gameObject;
+				ObjectManager.Instance.selectedItem = gameObject;
 
 				Debug.Log ("reference Item will highlight.");
 			} else {

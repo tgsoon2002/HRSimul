@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using System.Collections;
 
 public class AssetBase : MonoBehaviour
@@ -15,6 +16,7 @@ public class AssetBase : MonoBehaviour
 	{
 		
 	}
+
 
 
 }
