@@ -19,6 +19,9 @@ public class AssetDB : MonoBehaviour
 
 	public List <AssetItem> assetList;
 	public int totalItem;
+
+	public GameObject TotalPanel;
+
 	public GameObject assetViewPrefab;
 	public GameObject furnitureCon;
 	public GameObject furnitureFavCon;
@@ -26,7 +29,6 @@ public class AssetDB : MonoBehaviour
 	public GameObject roomUtiFavCon;
 	public GameObject textureCon;
 	public GameObject textureFavCon;
-
 	public GameObject colorPicker;
 
 	#endregion
@@ -62,25 +64,46 @@ public class AssetDB : MonoBehaviour
 
 	#region Public Methods
 
-	public void _OpenColorPicker ()
+	public void _ViewWallAsset ()
 	{
-		colorPicker.gameObject.SetActive (true);
-		_CloseViewer ();
+		TotalPanel.transform.GetChild (2).gameObject.SetActive (true);
+		TotalPanel.transform.GetChild (3).gameObject.SetActive (true);
+		TotalPanel.transform.GetChild (0).gameObject.SetActive (false);
+		TotalPanel.transform.GetChild (1).gameObject.SetActive (false);
 	}
 
-	public void _CloseColorPicker ()
+	public void _SwitchAsset ()
 	{
-		colorPicker.gameObject.SetActive (false);
+		if (TotalPanel.transform.GetChild (0).gameObject.activeSelf) {
+			_ViewWallAsset ();
+		} else {
+			_ViewObjectAsset ();
+		}
 	}
 
-
-
-	public void _OpenViewer ()
+	public void _ViewObjectAsset ()
 	{
-		
+		TotalPanel.transform.GetChild (0).gameObject.SetActive (true);
+		TotalPanel.transform.GetChild (1).gameObject.SetActive (true);
+		TotalPanel.transform.GetChild (2).gameObject.SetActive (false);
+		TotalPanel.transform.GetChild (3).gameObject.SetActive (false);
+
+	}
+
+	public void _OpenObjectViewer ()
+	{
 		transform.GetChild (0).gameObject.SetActive (true);
 		transform.GetChild (1).gameObject.SetActive (true);
 		transform.GetChild (2).gameObject.SetActive (true);
+		_ViewObjectAsset ();
+	}
+
+	public void _OpenWallAssetViewer ()
+	{
+		transform.GetChild (0).gameObject.SetActive (true);
+		transform.GetChild (1).gameObject.SetActive (true);
+		transform.GetChild (2).gameObject.SetActive (true);
+		_ViewWallAsset ();
 	}
 
 	public void _CloseViewer ()
