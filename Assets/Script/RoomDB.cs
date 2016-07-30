@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,14 +8,16 @@ using System.Text;
 using LitJson;
 
 public class RoomDB : MonoBehaviour {
+	Button[] buttons;
 	private JsonData roomJson;
 	public List<RoomItem> roomList;
 
 	// Use this for initialization
 	void Start()
 	{
+		buttons = this.GetComponentsInChildren<Button> ();
+		_CloseViewer ();
 		roomList = new List<RoomItem> ();
-		ConstructDB ();
 	}
 
 	//Construct the database
@@ -59,20 +62,32 @@ public class RoomDB : MonoBehaviour {
 		Debug.Log (roomList);
 	}
 
-	void Save()
+	public void Save(string roomNumber)
 	{
+		
+		List<AssetBase> objManList = ObjectManager.Instance.assetList;
+		for (int i = 0; i < objManList.Count; i++) {
+			roomList.Add(new RoomItem ("Room1", objManList [i].name,  objManList [i].type, objManList [i].gameObject.transform.position,
+				gameObject.transform.rotation.eulerAngles, objManList [i].randomID));
+		}
+
+		
 		StringBuilder sb = new StringBuilder ();
 		JsonWriter writer = new JsonWriter (sb);
 
 		writer.WriteArrayStart ();
+		writer.Write (roomNumber);
+
+
 		for (int i = 0; i < roomList.Count; i++) {
 
+			writer.WriteArrayStart ();
 			writer.WriteObjectStart ();
-			writer.WritePropertyName ("RoomName");
-			writer.Write(roomList[i].roomName);
+			string name = roomList [i].itemName;
+			name = name.Replace ("(Clone)", "");
 
 			writer.WritePropertyName ("aName");
-			writer.Write (roomList [i].itemName);
+			writer.Write (name);
 
 			writer.WritePropertyName ("aType");
 			writer.Write (roomList [i].type.ToString());
@@ -94,16 +109,34 @@ public class RoomDB : MonoBehaviour {
 			writer.WritePropertyName ("ID");
 			writer.Write (roomList [i].ID);
 
+
 			writer.WriteObjectEnd ();
+			writer.WriteArrayEnd ();
 		}
 		writer.WriteArrayEnd ();
 		File.WriteAllText (Application.dataPath + "/StreamingAssets/RoomDB.json",sb.ToString());
 	}
 
-	// Update is called once per frame
-	void Update () {
-	
+	// Instantiate objects from JSON data
+	public void LoadFromDB () {
+		
+		for (int i = 0; i < roomList.Count; i++) {
+			ObjectManager.Instance.CreateAssets (roomList [i].itemName, roomList [i].type);
+		}
 	}
+
+	public void _SaveMenu()
+	{
+		transform.GetChild (0).gameObject.SetActive (true);
+
+		Debug.Log ("I was called");
+	}
+
+	public void _CloseViewer()
+	{
+		transform.GetChild (0).gameObject.SetActive (false);
+	}
+
 }
 
 

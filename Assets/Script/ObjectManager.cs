@@ -136,6 +136,7 @@ public class  ObjectManager : MonoBehaviour
 		assetPrefab = (GameObject)Resources.Load (type.ToString () + "/" + name);
 		GameObject tempAsset = Instantiate (assetPrefab, Vector3.zero, Quaternion.Euler (Vector3.zero)) as GameObject;
 		tempAsset.GetComponent<AssetBase> ().randomID = id;
+		tempAsset.GetComponent<AssetBase> ().type = type;
 		return tempAsset;
 	}
 
