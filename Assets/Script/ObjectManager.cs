@@ -13,8 +13,8 @@ public class  ObjectManager : MonoBehaviour
 	public Vector3 roomDimen;
 	private GameObject assetPrefab;
 	public GameObject objectNamePre;
-	public Material wallText;
-	public Material floorText;
+	public CreateRoom room;
+
 	public int currentID;
 
 	public GameObject FourArrow;
@@ -54,12 +54,18 @@ public class  ObjectManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && !AssetDB.Instance.isOpen) 
+		{
 			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out hit, 50.0f)) {
-				if (hit.collider.gameObject.tag == "Object") {
+
+			if (Physics.Raycast (ray, out hit, 50.0f)) 
+			{
+				if (hit.collider.gameObject.tag == "Object") 
+				{
 					SelectedItem = hit.collider.gameObject;
-				} else if (hit.collider.gameObject.tag == "Wall") {
+				} 
+				else if (hit.collider.gameObject.tag == "Wall") 
+				{
 					AssetDB.Instance._OpenWallAssetViewer ();
 				}
 			}
@@ -105,12 +111,6 @@ public class  ObjectManager : MonoBehaviour
 	}
 
 
-	public void _WallColorChange (Color newColor)
-	{
-		if (wallText != null) {
-			wallText.color = newColor;	
-		}
-	}
 
 	public void DeslectedCurrentObject ()
 	{
