@@ -15,19 +15,15 @@ public class RoomDB : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
-		buttons = this.GetComponentsInChildren<Button> ();
 		_CloseViewer ();
 		roomList = new List<RoomItem> ();
 	}
 
 	//Construct the database
-	void ConstructDB () {
+	void ConstructDB (string roomNumber) {
 
 		//Load Json data into roomJson
-		roomJson = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/RoomDB.json"));
-
-		Debug.Log (roomJson);
-		Debug.Log(roomJson[0]["ID"]);
+		roomJson = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/"+roomNumber+".json"));
 
 		//For each Json object add to the roomList
 		for (int i = 0; i < roomJson.Count; i++) {
@@ -49,7 +45,7 @@ public class RoomDB : MonoBehaviour {
 
 			//Add to the roomList
 			roomList.Add (new RoomItem (
-				roomJson [i] ["RoomName"].ToString (),
+				roomJson [i]["RoomName"].ToString (),
 				roomJson [i] ["aName"].ToString (),
 				tempType,
 				tempPos,
@@ -57,32 +53,29 @@ public class RoomDB : MonoBehaviour {
 				tempID
 			));
 		}
-
-		Debug.Log (roomList.Count);
-		Debug.Log (roomList);
 	}
+
 
 	public void Save(string roomNumber)
 	{
-		
+		roomList.Clear ();
 		List<AssetBase> objManList = ObjectManager.Instance.assetList;
 		for (int i = 0; i < objManList.Count; i++) {
 			roomList.Add(new RoomItem ("Room1", objManList [i].name,  objManList [i].type, objManList [i].gameObject.transform.position,
 				gameObject.transform.rotation.eulerAngles, objManList [i].randomID));
 		}
-
-		
+			
 		StringBuilder sb = new StringBuilder ();
 		JsonWriter writer = new JsonWriter (sb);
 
 		writer.WriteArrayStart ();
-		writer.Write (roomNumber);
-
 
 		for (int i = 0; i < roomList.Count; i++) {
 
-			writer.WriteArrayStart ();
 			writer.WriteObjectStart ();
+
+			writer.WritePropertyName ("RoomName");
+			writer.Write (roomNumber);
 			string name = roomList [i].itemName;
 			name = name.Replace ("(Clone)", "");
 
@@ -111,29 +104,38 @@ public class RoomDB : MonoBehaviour {
 
 
 			writer.WriteObjectEnd ();
-			writer.WriteArrayEnd ();
 		}
 		writer.WriteArrayEnd ();
-		File.WriteAllText (Application.dataPath + "/StreamingAssets/RoomDB.json",sb.ToString());
+		File.WriteAllText (Application.dataPath + "/StreamingAssets/"+roomNumber+".json",sb.ToString());
 	}
 
+
 	// Instantiate objects from JSON data
-	public void LoadFromDB () {
+	public void LoadFromDB (string roomNumber) {
 		
+		ConstructDB (roomNumber);
 		for (int i = 0; i < roomList.Count; i++) {
-			ObjectManager.Instance.CreateAssets (roomList [i].itemName, roomList [i].type);
+			//ObjectManager.Instance.CreateAssets (roomList [i].itemName, roomList [i].type);
+			GameObject tempObject = new GameObject();
+			tempObject.transform.position = roomList [i].location;
+			tempObject.transform.eulerAngles  = roomList [i].rotation;
+			ObjectManager.Instance.AddAsset (roomList [i].itemName, roomList [i].type, tempObject.transform, roomList [i].ID);
 		}
 	}
 
 	public void _SaveMenu()
 	{
-		transform.GetChild (0).gameObject.SetActive (true);
-
-		Debug.Log ("I was called");
+		//transform.GetChild (0).gameObject.SetActive (true);
+		Debug.Log ("I'm getting called");
+	}
+	public void _LoadMenu()
+	{
+		transform.GetChild (1).gameObject.SetActive (true);
 	}
 
 	public void _CloseViewer()
 	{
+		transform.GetChild (1).gameObject.SetActive (false);
 		transform.GetChild (0).gameObject.SetActive (false);
 	}
 
