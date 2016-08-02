@@ -16,36 +16,21 @@ public class ObjectItem : MonoBehaviour, IPointerClickHandler
 			
 			selected = value; 
 			if (value) {
-				ObjectManager.Instance.DeslectedCurrentObject ();
 				GetComponent<Text> ().fontStyle = FontStyle.Bold;
-				ObjectManager.Instance.selectedItem = gameObject;
-
-				Debug.Log ("reference Item will highlight.");
+				referenceItem.IsSelected = true;
 			} else {
 				GetComponent<Text> ().fontStyle = FontStyle.Normal;
-				Debug.Log ("reference Item will de-highlight.");
+				referenceItem.IsSelected = false;
 			}
 		}
 	}
 
-	// Use this for initialization
-	void Start ()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
-
 	public void OnPointerClick (PointerEventData eventData)
 	{
-		if (selected) {
-			Debug.Log ("moving Mode");
-		} else {
+		if (!selected) {
+			ObjectManager.Instance.DeselectedCurrentObject ();
 			IsSelected = true;	
+
 		}
 
 	}

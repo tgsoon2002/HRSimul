@@ -7,7 +7,7 @@ public class FourArrow : MonoBehaviour
 	private GameObject referenceItem;
 	private bool following;
 
-	public GameObject Following {
+	public GameObject ObjectBeingFollowing {
 		get{ return  referenceItem; }
 		set {
 			gameObject.SetActive (true);
@@ -27,7 +27,7 @@ public class FourArrow : MonoBehaviour
 	{
 		if (following) {
 			transform.position = referenceItem.transform.position;	
-		}
+		} 
 
 	}
 

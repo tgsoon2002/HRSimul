@@ -11,10 +11,10 @@ public class  ObjectManager : MonoBehaviour
 	public List<AssetBase> assetList;
 	public List<GameObject> objectNameList;
 	public Vector3 roomDimen;
+	public GameObject roomObject;
 	private GameObject assetPrefab;
 	public GameObject objectNamePre;
-	public Material wallText;
-	public Material floorText;
+
 	public int currentID;
 
 	public GameObject FourArrow;
@@ -27,15 +27,6 @@ public class  ObjectManager : MonoBehaviour
 		get{ return  _instance; }
 	}
 
-	public GameObject SelectedItem {
-		get{ return  selectedItem; }
-		set {
-			selectedItem = value;
-			FourArrow.GetComponent<FourArrow> ().Following = value;
-		}
-	}
-
-
 	#region Unity Built-In
 
 	void Awake ()
@@ -45,11 +36,7 @@ public class  ObjectManager : MonoBehaviour
 		objectNameList = new List<GameObject> ();
 	}
 
-	// Use this for initialization
-	void Start ()
-	{
 
-	}
 
 	// Update is called once per frame
 	void Update ()
@@ -58,9 +45,9 @@ public class  ObjectManager : MonoBehaviour
 			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit, 50.0f)) {
 				if (hit.collider.gameObject.tag == "Object") {
-					SelectedItem = hit.collider.gameObject;
-				} else if (hit.collider.gameObject.tag == "Wall") {
-					AssetDB.Instance._OpenWallAssetViewer ();
+					DeselectedCurrentObject ();
+					objectNameList.Find (o => o.name == hit.collider.gameObject.GetComponent<AssetBase> ().randomID.ToString ()).GetComponent<ObjectItem> ().IsSelected = true;
+					FourArrow.GetComponent<FourArrow> ().ObjectBeingFollowing = hit.collider.gameObject;
 				}
 			}
 
@@ -94,6 +81,8 @@ public class  ObjectManager : MonoBehaviour
 
 		// add asset and assetItem to the list.
 		assetList.Add ((AssetBase)tempAsset.GetComponent<AssetBase> ());
+
+		tempAssetName.GetComponent<ObjectItem> ().referenceItem = tempAsset.GetComponent<AssetBase> ();
 		objectNameList.Add (tempAssetName);
 	}
 
@@ -104,20 +93,13 @@ public class  ObjectManager : MonoBehaviour
 		tempAsset.transform.rotation = location.rotation;
 	}
 
-
-	public void _WallColorChange (Color newColor)
+	public void DeselectedCurrentObject ()
 	{
-		if (wallText != null) {
-			wallText.color = newColor;	
+		
+		if (objectNameList.Find (o => o.GetComponent<ObjectItem> ().IsSelected == true)) {
+			objectNameList.Find (o => o.GetComponent<ObjectItem> ().IsSelected == true).GetComponent<ObjectItem> ().IsSelected = false;
 		}
-	}
-
-	public void DeslectedCurrentObject ()
-	{
-		if (selectedItem != null) {
-			selectedItem.GetComponent<ObjectItem> ().IsSelected = false;	
-		}
-
+			
 	}
 
 	#region Helper Class
