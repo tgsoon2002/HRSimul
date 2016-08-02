@@ -7,6 +7,7 @@ public class AssetBase : MonoBehaviour
 	protected string nameAssets;
 	public  int randomID;
 	public AssetType type;
+
 	public void BeingRemove ()
 	{
 		ObjectManager.Instance.RemoveItem (this);

@@ -31,6 +31,8 @@ public class AssetDB : MonoBehaviour
 	public GameObject textureFavCon;
 	public GameObject colorPicker;
 
+	public bool isOpen = false;
+
 	#endregion
 
 	#region Setters & Getters
@@ -70,6 +72,7 @@ public class AssetDB : MonoBehaviour
 		TotalPanel.transform.GetChild (3).gameObject.SetActive (true);
 		TotalPanel.transform.GetChild (0).gameObject.SetActive (false);
 		TotalPanel.transform.GetChild (1).gameObject.SetActive (false);
+
 	}
 
 	public void _SwitchAsset ()
@@ -88,6 +91,7 @@ public class AssetDB : MonoBehaviour
 		TotalPanel.transform.GetChild (2).gameObject.SetActive (false);
 		TotalPanel.transform.GetChild (3).gameObject.SetActive (false);
 
+
 	}
 
 	public void _OpenObjectViewer ()
@@ -96,6 +100,7 @@ public class AssetDB : MonoBehaviour
 		transform.GetChild (1).gameObject.SetActive (true);
 		transform.GetChild (2).gameObject.SetActive (true);
 		_ViewObjectAsset ();
+		isOpen = true;
 	}
 
 	public void _OpenWallAssetViewer ()
@@ -104,6 +109,7 @@ public class AssetDB : MonoBehaviour
 		transform.GetChild (1).gameObject.SetActive (true);
 		transform.GetChild (2).gameObject.SetActive (true);
 		_ViewWallAsset ();
+		isOpen = true;
 	}
 
 	public void _CloseViewer ()
@@ -111,6 +117,7 @@ public class AssetDB : MonoBehaviour
 		transform.GetChild (0).gameObject.SetActive (false);
 		transform.GetChild (1).gameObject.SetActive (false);
 		transform.GetChild (2).gameObject.SetActive (false);
+		isOpen = false;
 	}
 
 	#endregion

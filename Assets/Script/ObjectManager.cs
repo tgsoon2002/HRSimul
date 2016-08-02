@@ -13,8 +13,8 @@ public class  ObjectManager : MonoBehaviour
 	public Vector3 roomDimen;
 	private GameObject assetPrefab;
 	public GameObject objectNamePre;
-	public Material wallText;
-	public Material floorText;
+	public CreateRoom room;
+
 	public int currentID;
 
 	public GameObject FourArrow;
@@ -54,12 +54,18 @@ public class  ObjectManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && !AssetDB.Instance.isOpen) 
+		{
 			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out hit, 50.0f)) {
-				if (hit.collider.gameObject.tag == "Object") {
+
+			if (Physics.Raycast (ray, out hit, 50.0f)) 
+			{
+				if (hit.collider.gameObject.tag == "Object") 
+				{
 					SelectedItem = hit.collider.gameObject;
-				} else if (hit.collider.gameObject.tag == "Wall") {
+				} 
+				else if (hit.collider.gameObject.tag == "Wall") 
+				{
 					AssetDB.Instance._OpenWallAssetViewer ();
 				}
 			}
@@ -79,6 +85,7 @@ public class  ObjectManager : MonoBehaviour
 
 	public void CreateAssets (string assetName, AssetType type)
 	{
+		Debug.Log ("create using create asset");
 		Random rand = new Random ();
 		int id = -1;
 		do {
@@ -94,30 +101,32 @@ public class  ObjectManager : MonoBehaviour
 
 		// add asset and assetItem to the list.
 		assetList.Add ((AssetBase)tempAsset.GetComponent<AssetBase> ());
+		tempAssetName.GetComponent<ObjectItem> ().referenceItem = tempAsset.GetComponent<AssetBase>();
 		objectNameList.Add (tempAssetName);
 	}
 
-	public void AddAsset (string name, AssetType type, Transform location, int id)
+	public void AddAsset (string name, AssetType type, Vector3 location, Vector3 rotation, int id)
 	{
+		Debug.Log ("create from db");
 		GameObject tempAsset = InstantiateAsset (name, type, id);
-		tempAsset.transform.position = location.position;
-		tempAsset.transform.rotation = location.rotation;
+		tempAsset.transform.position = location;
+		tempAsset.transform.rotation = Quaternion.Euler( rotation);
+
+		GameObject tempAssetName = InstantiateObjectItem (name, id);
+
+		// add asset and assetItem to the list.
+		assetList.Add ((AssetBase)tempAsset.GetComponent<AssetBase> ());
+		tempAssetName.GetComponent<ObjectItem> ().referenceItem = tempAsset.GetComponent<AssetBase>();
+		tempAssetName.GetComponent<RectTransform> ().localScale = Vector3.one;
+		objectNameList.Add (tempAssetName);
 	}
 
-
-	public void _WallColorChange (Color newColor)
-	{
-		if (wallText != null) {
-			wallText.color = newColor;	
-		}
-	}
 
 	public void DeslectedCurrentObject ()
 	{
 		if (selectedItem != null) {
 			selectedItem.GetComponent<ObjectItem> ().IsSelected = false;	
 		}
-
 	}
 
 	#region Helper Class
@@ -125,7 +134,8 @@ public class  ObjectManager : MonoBehaviour
 	GameObject InstantiateObjectItem (string itemName, int id)
 	{
 		GameObject tempAssetName = Instantiate (objectNamePre) as GameObject;
-		tempAssetName.transform.parent = transform;
+
+		tempAssetName.transform.SetParent(  transform);
 		tempAssetName.name = id.ToString ();
 		tempAssetName.GetComponent<Text> ().text = (itemName + " " + id.ToString ());
 		return tempAssetName;
@@ -136,7 +146,6 @@ public class  ObjectManager : MonoBehaviour
 		assetPrefab = (GameObject)Resources.Load (type.ToString () + "/" + name);
 		GameObject tempAsset = Instantiate (assetPrefab, Vector3.zero, Quaternion.Euler (Vector3.zero)) as GameObject;
 		tempAsset.GetComponent<AssetBase> ().randomID = id;
-		tempAsset.GetComponent<AssetBase> ().type = type;
 		return tempAsset;
 	}
 

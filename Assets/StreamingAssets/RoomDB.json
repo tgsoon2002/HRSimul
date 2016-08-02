@@ -1,1 +1,14 @@
-["Room1",[{"aName":"table","aType":"Furniture","LocX":0.0,"LocY":0.0,"LocZ":0.0,"RotX":0.0,"RotY":0.0,"RotZ":0.0,"ID":317}],[{"aName":"chair","aType":"Furniture","LocX":0.0,"LocY":0.0,"LocZ":0.0,"RotX":0.0,"RotY":0.0,"RotZ":0.0,"ID":454}],[{"aName":"chair","aType":"Furniture","LocX":0.0,"LocY":0.0,"LocZ":0.0,"RotX":0.0,"RotY":0.0,"RotZ":0.0,"ID":322}]]
+[{
+		"Roomname":"Room1",
+		"length" : 5.0,
+		"height" : 3.0,
+		"depth" : 2.0
+		},
+		{
+		"Roomname":"Room2",
+		"length" : 5.0,
+		"height" : 3.0,
+		"depth" : 2.0
+		
+	}
+]
