@@ -139,7 +139,7 @@ public class  ObjectManager : MonoBehaviour
 	{
 		Color newColor;
 
-		currentWall = roomObject.transform.GetChild (1).gameObject;
+		currentWall = roomObject.transform.GetChild (0).gameObject;
 		ColorUtility.TryParseHtmlString (PlayerPrefs.GetString ("HexColor"), out newColor);
 		currentWall.GetComponent<Renderer> ().material.color = newColor;
 	}
